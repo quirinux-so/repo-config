@@ -1,0 +1,14 @@
+# Repositorio base estable.
+deb http://deb.debian.org/debian/ buster main 
+
+ 
+# Repositorio de actualizaciones de seguridad
+deb http://security.debian.org/debian-security buster/updates main 
+
+ 
+# Repositorio de actualizaciones anteriormente conocido como "Volátil"
+deb http://deb.debian.org/debian/ buster-updates main 
+
+ 
+# Backports contrib
+# deb http://deb.debian.org/debian buster-backports main 

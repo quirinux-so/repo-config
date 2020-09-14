@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Name=Repo-Config
+Comment=Enable or disable non-free repositories.
+Comment[en_GB]=Enable or disable non-free repositories.
+Comment[es_ES]=Activa o desactiva los repositorios no libres.
+Comment[es_AR]=Activa o desactiva los repositorios no libres.
+Comment[gl_ES]=Habilita ou desactiva os repositorios non libres.
+Comment[fr_FR]=Activez ou désactivez les référentiels non libres.
+Comment[it_IT]=Abilita o disabilita i repository non liberi.
+Comment[de_DE]=Aktivieren oder deaktivieren Sie nicht freie Repositorys.
+Comment[pt_BR]=Ative ou desative os repositórios não livres.
+Comment[pt_PT]=Ative ou desative os repositórios não livres.
+Comment[ru_RU]=Включите или отключите несвободные репозитории.
+Icon=repo
+Exec=repo-config
+Type=Application
+Categories=GTK;System;
+Terminal=false
+NoDisplay=false
+StartupNotify=true
+Encoding=UTF-8

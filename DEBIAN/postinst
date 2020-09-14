@@ -1,0 +1,15 @@
+#!/bin/bash -x
+#
+# Quirinux-DEB Postinstall 1.0
+#
+# Autor: Charlie Martínez
+#
+
+sudo chmod 777 -R /opt/tmp/repo-config
+sudo chmod 777 -R /etc/apt
+
+sudo cp -b -R /opt/tmp/repo-config/etc /
+
+sudo chmod 455 -R /etc/apt
+
+sudo apt-get update
