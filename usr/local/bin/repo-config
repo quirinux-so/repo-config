@@ -6,111 +6,1268 @@
 # Descripción:	Activar repositorios libres, non-free, contrib y/o backports.
 # Versión:	1.1
 
-clear
+# =========================================================================================
+# INICIO / FIN (IDIOMAS) [CÓDIGO REUTILIZABLE]
+# =========================================================================================
 
-opc=$(zenity --width=640 --height=480 --title=Quirinux --entry --text="
-  		ACTIVAR O DESACTIVAR REPOSITORIOS NO LIBRES
+# Alemán
+function _inicio_de() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_de
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_de
+fi
+}
+function _fin_de()
+{
+zenity --info *text "Einstellungen vorgenommen. Sie können sie jederzeit umkehren. "
+}
 
-	Si necesitas usar hardware que requiere controladores privativos
-	(como por ejemplo, una placa de red wifi que actualmente no te funciona)
-	Puedes activar estos repositorios, que de por sí solos no instalarán nada.
+# Inglés
+function _inicio_en() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_en
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_en
+fi
+}
+function _fin_en()
+{
+zenity --info *text "Settings made. You can always reverse them."
+}
 
-	También puedes agregar los repositorios backports con los que obtendrás
-	versiones un poco más recientes de tu software. 
-	
-		
-		1) Activar repositorios non-free contrib
-		2) Activar repositorios non-free contrib y backports
-		3) Activar sólo repositorios libres
-		4) Activar sólo repositorios libres y backports
-		0) Salir
-"
+# Castellano
+function _inicio_es() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_es
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_es
+fi
+}
+function _fin_es()
+{
+zenity --info *text "Configuraciones realizadas. Siempre puedes revertirlas."
+}
+
+# Francés
+function _inicio_fr() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_fr
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_fr
+fi
+}
+function _fin_fr()
+{
+zenity --info *text "Paramètres définis. Vous pouvez toujours les inverser. "
+}
+
+# Galego
+function _inicio_gl() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_gl
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_gl
+fi
+}
+function _fin_gl()
+{
+zenity --info *text "Configuración feita. Sempre os podes reverter."
+}
+
+# Italiano
+function _inicio_it () # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_it
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_it 
+fi
+}
+function _fin_it ()
+{
+zenity --info *text "Impostazioni effettuate. Puoi sempre invertirli. "
+}
+
+# Portugués
+function _inicio_pt() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_pt
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_pt
+fi
+}
+function _fin_pt()
+{
+zenity --info *text "Configurações feitas. Você sempre pode revertê-los."
+}
+
+# Ruso
+function _inicio_ru() # Verifica si está instalado zenity
+{
+if [ -e "/usr/bin/zenity" ]; then # Está instalado, continúa
+_menuPrincipal_ru
+else # No está instalado zenity, lo instala y continúa
+_instalarZenity
+_menuPrincipal_ru
+fi
+}
+function _fin_ru()
+{
+zenity --info *text "Настройки сделаны. Вы всегда можете отменить их.  "
+}
+
+# =========================================================================================
+# INSTALAR ZENITY [CÓDIGO REUTILIZABLE]
+# =========================================================================================
+
+function _instalarZenity()
+{
+sudo apt-get install zenity -y
+}
+
+# =========================================================================================
+# SALIR [CÓDIGO REUTILIZABLE]
+# =========================================================================================
+
+
+function _salir()
+{
+exit 0
+}
+
+# =========================================================================================
+# SELECTOR DE IDIOMA [CÓDIGO REUTILIZABLE]
+# Esta sección fue tomada de Etertics GNU/Linux, 
+# @Autor: Javier Obregón (GPLv3)
+# =========================================================================================
+
+function _idioma() 
+
+{
+
+IDIOMA=$(echo $LANG | cut -d_ -f1) # Idioma del sistema
+
+if [[ $IDIOMA = "es" ]]
+then
+_inicio_es
+
+elif [[ $IDIOMA = "en" ]]
+then
+_inicio_en
+
+elif [[ $IDIOMA = "gl" ]]
+then
+_inicio_gl
+
+elif [[ $IDIOMA = "pt" ]]
+then
+_inicio_pt
+
+elif [[ $IDIOMA = "fr" ]]
+then
+_inicio_fr
+
+elif [[ $IDIOMA = "it" ]]
+then
+_inicio_it
+
+elif [[ $IDIOMA = "de" ]]
+then
+_inicio_de
+
+elif [[ $IDIOMA = "ru" ]]
+then
+_inicio_ru
+
+else
+_inicio_en
+fi
+
+}
+
+# =========================================================================================
+# CASTELLANO
+# =========================================================================================
+
+function _menuPrincipal_es()
+{
+opPrincipal=$(
+zenity --list --title "ACTIVAR O DESACTIVAR REPOSITORIOS NO LIBRES" --width="600" --height="300" \
+--column="Opciones disponibles" \
+"Activar repositorios non-free contrib" \
+"Activar repositorios non-free contrib y backports" \
+"Activar sólo repositorios libres" \
+"Activar sólo repositorios libres y backports" \
+"Salir" \
 )
-case $opc in
+if [[ $opPrincipal == "Activar repositorios non-free contrib" ]]; then
+_nonFreeContrib_es
+_fin_es
+fi
+if [[ $opPrincipal == "Activar repositorios non-free contrib y backports" ]]; then
+_nonFreeContribBack_es
+_fin_es
+fi
+if [[ $opPrincipal == "Activar sólo repositorios libres" ]]; then
+_free_es
+_fin_es
+fi
+if [[ $opPrincipal == "Activar sólo repositorios libres y backports" ]]; then
+_free_es
+_fin_es
+fi
+if [[ $opPrincipal == "Salir" ]]; then
+_salir
+fi
+}
 
-"1") 
-(
+function _nonFreeContrib_es()
 
-echo "# Activando los repositorios malditos..."; sleep 1s
+{
+	(
+
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
 
 sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
 
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
 sudo apt-get update
 
-echo "# Repositorios non-free y contrib activados."; sleep 1s
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
 
 )|
+zenity --progress --title="Configurando" --text="Ten paciencia, llevará tiempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+}
 
-zenity --progress --pulsate 
-
-title="Quirinux"
-percentage=0
-
-;;
-
-"2") 
-(
-
-echo "# Activando los repositorios malditos y backports..."; sleep 1s
+function _nonFreeContribBack_es()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
 
 sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
 
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
 sudo apt-get update
 
-echo "# Repositorios non-free contrib y backports activados."; sleep 1s
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
 
 )|
+zenity --progress --title="Configurando" --text="Ten paciencia, llevará tiempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+}
 
-zenity --progress --pulsate 
+function _free_es()
+{
+	(
 
-title="Quirinux"
-percentage=0
-
-;;
-
-"3")
-(
-
-echo "# Activando sólo repositorios libres..."; sleep 1s
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
 
 sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
 
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
 sudo apt-get update
 
-echo "# Repositorios libres activados."; sleep 1s
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
 
 )|
+zenity --progress --title="Configurando" --text="Ten paciencia, llevará tiempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+	}
+	
+function _freeBack_es()
 
-zenity --progress --pulsate 
-
-title="Quirinux"
-percentage=0
-
-;;
-
-"4")
-(
-
-echo "# Activando sólo repositorios libres y backports..."; sleep 1s
+{
+	(
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
 
 sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
 
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
 sudo apt-get update
 
-echo "# Repositorios libres y backports activados."; sleep 1s
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
 
 )|
+zenity --progress --title="Configurando" --text="Ten paciencia, llevará tiempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
 
-zenity --progress --pulsate 
+}
 
-title="Quirinux"
-percentage=0
+# =========================================================================================
+# GALEGO
+# =========================================================================================
 
-;;
+function _menuPrincipal_gl
+{
+opPrincipal=$(
+zenity --list --title "ACTIVA OU DESACTIVA OS REPOSITORIOS NON LIBRES" --width="600" --height="300" \
+--column="Opcións dispoñibles" \
+"Active repositorios non-free contrib" \
+"Active repositorios non-free contrib e backports" \
+"Active só repositorios libres" \
+"Active repositorios libres e backports" \
+"Saír" \
+)
+if [[ $opPrincipal == "Active repositorios non-free contrib" ]]; then
+_nonFreeContrib_gl
+_fin_gl
+fi
+if [[ $opPrincipal == "Active repositorios non-free contrib e backports" ]]; then
+_nonFreeContribBack_gl
+_fin_gl
+fi
+if [[ $opPrincipal == "Active só repositorios libres" ]]; then
+_free_gl
+_fin_gl
+fi
+if [[ $opPrincipal == "Active repositorios libres e backports" ]]; then
+_free_gl
+_fin_gl
+fi
+if [[ $opPrincipal == "Saír" ]]; then
+_salir
+fi
+}
 
-"0")
+function _nonFreeContrib_gl()
 
-	exit 0
-;; 
+{
+	(
 
-esac 
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Sexa paciente, levará tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+}
+
+function _nonFreeContribBack_gl()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Sexa paciente, levará tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+}
+
+function _free_gl()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Procesando"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Sexa paciente, levará tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+	}
+	
+function _freeBack_gl()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Procesando"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Procesando"; sleep 1
+
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Sexa paciente, levará tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuración cancelada"
+fi
+
+}
+
+# =========================================================================================
+# ENGLISH
+# =========================================================================================
+
+function _menuPrincipal_en()
+{
+opPrincipal=$(
+zenity --list --title "ACTIVATE OR DEACTIVATE NON-FREE REPOSITORIES" --width="600" --height="300" \
+--column="Available options" \
+"Activate non-free contrib repositories" \
+"Activate non-free contrib and backports repositories" \
+"Activate only free repositories" \
+"Activate only free repositories and backports" \
+"Exit" \
+)
+if [[ $opPrincipal == "Activate non-free contrib repositories" ]]; then
+_nonFreeContrib_en
+_fin_en
+fi
+if [[ $opPrincipal == "Activate non-free contrib and backports repositories" ]]; then
+_nonFreeContribBack_en
+_fin_en
+fi
+if [[ $opPrincipal == "Activate only free repositories" ]]; then
+_free_en
+_fin_en
+fi
+if [[ $opPrincipal == "Activate only free repositories and backports" ]]; then
+_free_en
+_fin_en
+fi
+if [[ $opPrincipal == "Exit" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_en()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
+
+)|
+zenity --progress --title="Configuring" --text="Be patient, it will take time " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration canceled "
+fi
+}
+
+function _nonFreeContribBack_en()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
+
+)|
+zenity --progress --title="Configuring" --text="Be patient, it will take time " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration canceled "
+fi
+}
+
+function _free_en()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
+
+)|
+zenity --progress --title="Configuring" --text="Be patient, it will take time " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration canceled "
+fi
+	}
+	
+function _freeBack_en()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Processing"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Processing"; sleep 1
+
+)|
+zenity --progress --title="Configuring" --text="Be patient, it will take time " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration canceled "
+fi
+
+}
+
+# =========================================================================================
+# PORTUGUÊS
+# =========================================================================================
+
+function _menuPrincipal_pt()
+{
+opPrincipal=$(
+zenity --list --title "ATIVAR OU DESATIVAR REPOSITÓRIOS NÃO LIVRES" --width="600" --height="300" \
+--column="Opções disponíveis" \
+"Ativar repositórios non-free contrib" \
+"Ativar repositórios non-free contrib y backports" \
+"Ativar apenas repositórios livres" \
+"Ativar apenas repositórios livres y backports" \
+"Sair" \
+)
+if [[ $opPrincipal == "Ativar repositórios non-free contrib" ]]; then
+_nonFreeContrib_pt
+_fin_pt
+fi
+if [[ $opPrincipal == "Ativar repositórios non-free contrib y backports" ]]; then
+_nonFreeContribBack_pt
+_fin_pt
+fi
+if [[ $opPrincipal == "Ativar apenas repositórios livres" ]]; then
+_free_pt
+_fin_pt
+fi
+if [[ $opPrincipal == "Ativar apenas repositórios livres y backports" ]]; then
+_free_pt
+_fin_pt
+fi
+if [[ $opPrincipal == "Sair" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_pt()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Em processamento"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Seja paciente, vai demorar" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuração cancelada"
+fi
+}
+
+function _nonFreeContribBack_pt()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Em processamento"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Seja paciente, vai demorar" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuração cancelada"
+fi
+}
+
+function _free_pt()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Em processamento"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Seja paciente, vai demorar" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuração cancelada"
+fi
+}
+	
+function _freeBack_pt()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Em processamento"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Em processamento"; sleep 1
+
+)|
+zenity --progress --title="Configurando" --text="Seja paciente, vai demorar" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuração cancelada"
+fi
+}
+
+# =========================================================================================
+# FRANÇAIS
+# =========================================================================================
+
+function _menuPrincipal_fr
+{
+opPrincipal=$(
+zenity --list --title "ACTIVER OU DÉSACTIVER LES REPOSITORIES NON LIBRES" --width="600" --height="300" \
+--column="Options disponibles" \
+"Activer les référentiels non-free contrib" \
+"Activer les référentiels non-free contrib e backports" \
+"Activer uniquement les référentiels libres" \
+"Activer uniquement les référentiels et les backports" \
+"Sortir" \
+)
+if [[ $opPrincipal == "Activer les référentiels non-free contrib" ]]; then
+_nonFreeContrib_fr
+_fin_fr
+fi
+if [[ $opPrincipal == "Activer les référentiels non-free contrib e backports" ]]; then
+_nonFreeContribBack_gl
+_fin_fr
+fi
+if [[ $opPrincipal == "Activer uniquement les référentiels libres"]]; then
+_free_fr
+_fin_fr
+fi
+if [[ $opPrincipal == "Activer uniquement les référentiels et les backports" ]]; then
+_free_fr
+_fin_fr
+fi
+if [[ $opPrincipal == "Sortir" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_fr()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Traitement"; sleep 1
+
+)|
+zenity --progress --title="Configurer" --text="Soyez patient, cela prendra du temps" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration annulée"
+fi
+}
+
+function _nonFreeContribBack_fr()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Traitement"; sleep 1
+
+)|
+zenity --progress --title="Configurer" --text="Soyez patient, cela prendra du temps" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration annulée"
+fi
+}
+
+function _free_fr()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Traitement"; sleep 1
+
+)|
+zenity --progress --title="Configurer" --text="Soyez patient, cela prendra du temps" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration annulée"
+fi
+}
+	
+function _freeBack_fr()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Traitement"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Traitement"; sleep 1
+
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Traitement"; sleep 1
+
+)|
+zenity --progress --title="Configurer" --text="Soyez patient, cela prendra du temps" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configuration annulée"
+fi
+}
+
+# =========================================================================================
+# ITALIANO
+# =========================================================================================
+
+function _menuPrincipal_it()
+{
+opPrincipal=$(
+zenity --list --title "ATTIVARE O DISATTIVARE REPOSITORI NON LIBERI" --width="600" --height="300" \
+--column="Opzioni disponibili" \
+"Attivare non-free contrib repositories" \
+"Attivare non-free contrib e backports repositories" \
+"Attivare solo repository liberi" \
+"Attivare solo repository liberi e backports" \
+"Uscita" \
+)
+if [[ $opPrincipal == "Attivare non-free contrib repositories" ]]; then
+_nonFreeContrib_it
+_fin_it
+fi
+if [[ $opPrincipal == "Attivare non-free contrib e backports repositories" ]]; then
+_nonFreeContribBack_it
+_fin_it
+fi
+if [[ $opPrincipal == "Attivare solo repository liberi" ]]; then
+_free_it
+_fin_it
+fi
+if [[ $opPrincipal == "Attivare solo repository liberi e backports" ]]; then
+_free_it
+_fin_it
+fi
+if [[ $opPrincipal == "Uscita" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_it()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+)|
+zenity --progress --title="Configurazione" --text="Sii paziente, ci vorrà del tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configurazione annullata"
+fi
+}
+
+function _nonFreeContribBack_it()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+)|
+zenity --progress --title="Configurazione" --text="Sii paziente, ci vorrà del tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configurazione annullata"
+fi
+}
+
+function _free_it()
+{
+	(
+
+echo "30"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+)|
+zenity --progress --title="Configurazione" --text="Sii paziente, ci vorrà del tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configurazione annullata"
+fi
+}
+	
+function _freeBack_it()
+
+{
+	(
+echo "30"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# In lavorazione"; sleep 1
+
+)|
+zenity --progress --title="Configurazione" --text="Sii paziente, ci vorrà del tempo" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Configurazione annullata"
+fi
+}
+
+# =========================================================================================
+# ALEMÁN
+# =========================================================================================
+
+function _menuPrincipal_de()
+{
+opPrincipal=$(
+zenity --list --title "AKTIVIEREN ODER DEAKTIVIEREN SIE NICHT KOSTENLOSE REPOSITORIEN" --width="600" --height="300" \
+--column="Verfügbare Optionen" \
+"Aktivieren Sie nicht frier Contrib-Repositorys" \
+"Aktivieren Sie nicht frier Contrib- und Backports-Repositorys" \
+"Aktivieren Sie nur frier Repositorys" \
+"Aktivieren Sie nur frier und backports" \
+"Verlassen" \
+)
+if [[ $opPrincipal == "Aktivieren Sie nicht frier Contrib-Repositorys" ]]; then
+_nonFreeContrib_de
+_fin_de
+fi
+if [[ $opPrincipal == "Aktivieren Sie nicht frier Contrib- und Backports-Repositorys" ]]; then
+_nonFreeContribBack_de
+_fin_de
+fi
+if [[ $opPrincipal == "Aktivieren Sie nur frier Repositorys" ]]; then
+_free_de
+_fin_de
+fi
+if [[ $opPrincipal == "Aktivieren Sie nur frier und backports" ]]; then
+_free_de
+_fin_de
+fi
+if [[ $opPrincipal == "Verlassen" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_de()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+)|
+zenity --progress --title="Konfigurieren" --text="Sei geduldig, es wird einige Zeit dauern" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Konfiguration abgebrochen"
+fi
+}
+
+function _nonFreeContribBack_de()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+)|
+zenity --progress --title="Konfigurieren" --text="Sei geduldig, es wird einige Zeit dauern" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Konfiguration abgebrochen"
+fi
+}
+
+function _free_de()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+)|
+zenity --progress --title="Konfigurieren" --text="Sei geduldig, es wird einige Zeit dauern" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Konfiguration abgebrochen"
+fi
+}
+	
+function _freeBack_de()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Wird bearbeitet"; sleep 1
+
+)|
+zenity --progress --title="Konfigurieren" --text="Sei geduldig, es wird einige Zeit dauern" --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Konfiguration abgebrochen"
+fi
+}
+
+# =========================================================================================
+# RUSO
+# =========================================================================================
+
+function _menuPrincipal_ru)
+{
+opPrincipal=$(
+zenity --list --title "АКТИВИРОВАТЬ ИЛИ ДЕАКТИВИРОВАТЬ БЕСПЛАТНЫЕ РЕПОЗИТОРИИ" --width="600" --height="300" \
+--column="Доступные Варианты" \
+"Активировать несвободные репозитории contrib" \
+"Активировать несвободные репозитории contrib и backports" \
+"Активировать только бесплатные репозитории" \
+"Активируйте только бесплатные репозитории и бэкпорты" \
+"Покинуть" \
+)
+if [[ $opPrincipal == "Активировать несвободные репозитории contrib" ]]; then
+_nonFreeContrib_ru
+_fin_ru
+fi
+if [[ $opPrincipal == "Активировать несвободные репозитории contrib и backports" ]]; then
+_nonFreeContribBack_ru
+_fin_ru
+fi
+if [[ $opPrincipal == "Активировать только бесплатные репозитории" ]]; then
+_free_ru
+_fin_ru
+fi
+if [[ $opPrincipal == "Активируйте только бесплатные репозитории и бэкпорты" ]]; then
+_free_ru
+_fin_ru
+fi
+if [[ $opPrincipal == "Покинуть" ]]; then
+_salir
+fi
+}
+
+function _nonFreeContrib_ru()
+
+{
+	(
+
+echo "30"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Обработка"; sleep 1
+
+)|
+zenity --progress --title="Настройка" --text="Будьте терпеливы, это займет время " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Конфигурация отменена"
+fi
+}
+
+
+function _nonFreeContribBack_ru()
+{
+	(
+	
+echo "30"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo cp -r /opt/repo-config/non-free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Обработка"; sleep 1
+
+)|
+zenity --progress --title="Настройка" --text="Будьте терпеливы, это займет время " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Конфигурация отменена"
+fi
+}
+
+
+function _free_ru()
+{
+	(
+
+echo "30"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo cp -r /opt/repo-config/free/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo apt-get update
+
+echo "# Обработка"; sleep 1
+
+)|
+zenity --progress --title="Настройка" --text="Будьте терпеливы, это займет время " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Конфигурация отменена"
+fi
+}
+
+	
+function _freeBack_ru()
+
+{
+	(
+echo "30"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo cp -r /opt/repo-config/free-back/* /etc/apt/sources.list.d/
+
+echo "60"; sleep 1
+echo "# Обработка"; sleep 1
+
+sudo apt-get update
+
+echo "100"; sleep 1
+echo "# Обработка"; sleep 1
+
+)|
+zenity --progress --title="Настройка" --text="Будьте терпеливы, это займет время " --percentage=0 --auto-close --auto-kill
+if [ "$?" = -1 ] ; then
+zenity --error --text="Конфигурация отменена"
+fi
+}
+
+_idioma
